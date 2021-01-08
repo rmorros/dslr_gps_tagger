@@ -17,6 +17,24 @@ from datetime import timedelta
 import os
 
 
+def print_exif_dict (exif_dict):
+
+    for ifd in ("0th", "Exif", "GPS", "1st"):
+        for tag in exif_dict[ifd]:
+            res = ''
+            if isinstance(exif_dict[ifd][tag], bytes):
+                print ('----------------------', ifd, tag, '------------------------------')
+                res = exif_dict[ifd][tag].split(b'\x00',1)[0]
+            else:
+                res = exif_dict[ifd][tag]
+
+            if isinstance(res, tuple) and len(res) > 50:
+                print(ifd, tag, piexif.TAGS[ifd][tag]["name"], 'Very long tuple')
+            else:
+                print(ifd, tag, piexif.TAGS[ifd][tag]["name"], res)
+    
+
+
 if __name__ == '__main__':
     # read arguments
     args = docopt(__doc__)
@@ -29,13 +47,23 @@ if __name__ == '__main__':
             continue
         prefix = os.path.basename(root)
         for f in sorted(files):
-            #print os.path.join(root, f)
+            print (os.path.join(root, f), '------------------------------------')
             exif_dict = piexif.load(os.path.join(root, f))
 
 
-            for ifd in ("0th", "Exif", "GPS", "1st"):
+            print_exif_dict (exif_dict)
+            '''
+             for ifd in ("0th", "Exif", "GPS", "1st"):
                 for tag in exif_dict[ifd]:
-                    print(ifd, tag, piexif.TAGS[ifd][tag]["name"], exif_dict[ifd][tag])
+                    res = ''
+                    if isinstance(exif_dict[ifd][tag], bytes):
+                        print ('----------------------', ifd, tag, '------------------------------')
+                        res = exif_dict[ifd][tag].split(b'\x00',1)[0]
+                    else:
+                        res = exif_dict[ifd][tag]
 
-
-
+                    if isinstance(res, tuple) and len(res) > 50:
+                        print(ifd, tag, piexif.TAGS[ifd][tag]["name"], 'Very long tuple')
+                    else:
+                        print(ifd, tag, piexif.TAGS[ifd][tag]["name"], res)
+            '''
