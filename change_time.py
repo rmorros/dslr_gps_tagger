@@ -23,20 +23,21 @@ for root, dirs, files in os.walk("./dslr_images"):
 
         td1 = timedelta(hours=1)
         td2 = timedelta(minutes=3)
+        td3 = timedelta(seconds=40)
         
         # 0th.DateTime
         if piexif.ImageIFD.DateTime in exif_dict["0th"]:
-            dto_date              = datetime.strptime(exif_dict['0th'][306], '%Y:%m:%d %H:%M:%S')
+            dto_date              = datetime.strptime(exif_dict['0th'][306].decode('utf-8')[O, '%Y:%m:%d %H:%M:%S')
             dto_date              = dto_date + td1 - td2
             exif_dict['0th'][306] = dto_date.strftime('%Y:%m:%d %H:%M:%S')
 
         # Exif.DateTimeOriginal
         if piexif.ExifIFD.DateTimeOriginal in exif_dict["Exif"]:
-            dto_date_orig = datetime.strptime(exif_dict['Exif'][36867], '%Y:%m:%d %H:%M:%S')
+            dto_date_orig = datetime.strptime(exif_dict['Exif'][36867].decode("utf-8") , '%Y:%m:%d %H:%M:%S')
             dto_date_orig = dto_date_orig + td1 - td2
             exif_dict['Exif'][36867] = dto_date_orig.strftime('%Y:%m:%d %H:%M:%S')
         if piexif.ExifIFD.DateTimeOriginal in exif_dict["Exif"]:
-            dto_date_digi = datetime.strptime(exif_dict['Exif'][36868], '%Y:%m:%d %H:%M:%S')
+            dto_date_digi = datetime.strptime(exif_dict['Exif'][36868].decode("utf-8") , '%Y:%m:%d %H:%M:%S')
             dto_date_digi = dto_date_digi + td1 - td2
             exif_dict['Exif'][36868] = dto_date_digi.strftime('%Y:%m:%d %H:%M:%S')
 
