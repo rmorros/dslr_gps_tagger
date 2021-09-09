@@ -5,6 +5,6 @@ geographiclib==1.50
 geopy==2.1.0
 LatLon3 @ git+git://github.com/eelcovv/LatLon@1f8cd4323fe1e4db85e0aba578b3fb7cebfb7527
 piexif==1.1.3
-Pillow==8.1.0
+Pillow==8.3.2
 pyproj==3.0.0.post1
 six==1.15.0
