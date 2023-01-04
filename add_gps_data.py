@@ -20,7 +20,7 @@ from datetime import datetime
 from datetime import timedelta
 #import geopy.distance 
 #import LatLon3
-from LatLon3 import LatLon
+import latlon
 from fractions import Fraction
 from decimal import Decimal
 import sys
@@ -162,14 +162,14 @@ if __name__ == '__main__':
                 count = count + 1
                 
             #print (count, dto_date_orig, ref_lst[count-1][0], ref_lst[count][0])
-            gps_tag = LatLon.LatLon(0.0, 0.0)
+            gps_tag = latlon.LatLon(0.0, 0.0)
             
             if count > 0 and count < len(ref_lst):  
                 #dist      = geopy.distance.vicently(ref_lst[count-1][2][0], ref_lst[count][2][0]).km
 
                 # LatLon objects with the references coordinates
-                prev = LatLon.LatLon(LatLon.Latitude(ref_lst[count-1][2][0][0]), LatLon.Longitude(ref_lst[count-1][2][0][1]))
-                next = LatLon.LatLon(LatLon.Latitude(ref_lst[count][2][0][0]),   LatLon.Longitude(ref_lst[count][2][0][1]))
+                prev = latlon.LatLon(latlon.Latitude(ref_lst[count-1][2][0][0]), latlon.Longitude(ref_lst[count-1][2][0][1]))
+                next = latlon.LatLon(latlon.Latitude(ref_lst[count][2][0][0]),   latlon.Longitude(ref_lst[count][2][0][1]))
                 
                 # Altitudes of previous and next references
                 prev_alt_ref = ref_lst[count-1][2][5]
@@ -177,7 +177,7 @@ if __name__ == '__main__':
                 next_alt_ref = ref_lst[count][2][5]
                 next_alt     = ref_lst[count][2][6]
                     
-                # Compute distance and heading using LatLon3 package
+                # Compute distance and heading using latlon package
                 dist = prev.distance(next, ellipse = 'sphere')
                 initial_heading = prev.heading_initial(next, ellipse = 'sphere')
                 
@@ -232,7 +232,7 @@ if __name__ == '__main__':
 
             elif count == 0:
                 td_next  = ref_lst[0][0] - dto_date_orig
-                next     = LatLon.LatLon(LatLon.Latitude(ref_lst[count][2][0][0]), LatLon.Longitude(ref_lst[count][2][0][1]))
+                next     = latlon.LatLon(latlon.Latitude(ref_lst[count][2][0][0]), latlon.Longitude(ref_lst[count][2][0][1]))
                 if td_next < td_threshold:
                     # GPS coords
                     gps_tag     = next
@@ -247,7 +247,7 @@ if __name__ == '__main__':
                     print (os.path.join(root, f), 'No reference found')
             else:
                 td_prev  = dto_date_orig - ref_lst[count-1][0]
-                prev = LatLon.LatLon(LatLon.Latitude(ref_lst[count-1][2][0][0]), LatLon.Longitude(ref_lst[count-1][2][0][1]))
+                prev = latlon.LatLon(latlon.Latitude(ref_lst[count-1][2][0][0]), latlon.Longitude(ref_lst[count-1][2][0][1]))
                 if td_prev < td_threshold:
                     # GPS coords
                     gps_tag     = prev
